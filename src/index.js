@@ -34,6 +34,7 @@ const CONTAINER_ID = 'tradingview-widget';
 
 export default class TradingViewWidget extends PureComponent {
   static propTypes = {
+    onChartReady: PropTypes.func,
     allow_symbol_change: PropTypes.bool,
     autosize: PropTypes.bool,
     calendar: PropTypes.bool,
@@ -208,7 +209,8 @@ export default class TradingViewWidget extends PureComponent {
     }
 
     /* global TradingView */
-    new TradingView[widgetType](config);
+    const widget = new TradingView[widgetType](config);
+    widget.onChartReady(() => this.props.onChartReady && this.props.onChartReady(widget))
   };
 
   cleanWidget = () => {
